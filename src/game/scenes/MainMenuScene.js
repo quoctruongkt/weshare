@@ -44,6 +44,13 @@ export default class MainMenuScene extends Scene {
                             coin: 0,
                             canPush: false,
                             haveSword: false,
+                            haveApple: false,
+                            haveAvocado: false,
+                            haveCherries: false,
+                            haveBanana: false,
+                            haveOrange: false,
+                            havePineapple: false,
+                            haveWatermelon: false,
                         },
                         mapKey: 'home_page_city_house_01',
                     });

@@ -359,6 +359,13 @@ export default class GameScene extends Scene {
       coin: heroCoin,
       canPush: heroCanPush,
       haveSword: heroHaveSword,
+      haveApple: heroHaveApple,
+      haveAvocado: heroHaveAvocado,
+      haveBanana: heroHaveBanana,
+      haveCherries: heroHaveCherries,
+      haveOrange: heroHaveOrange,
+      havePineapple: heroHavePineapple,
+      haveWatermelon: heroHaveWatermelon,
     } = heroStatus;
 
     camera.fadeIn(SCENE_FADE_TIME);
@@ -391,6 +398,13 @@ export default class GameScene extends Scene {
     this.heroSprite.coin = heroCoin;
     this.heroSprite.canPush = heroCanPush;
     this.heroSprite.haveSword = heroHaveSword;
+    this.heroSprite.haveApple = heroHaveApple;
+    this.heroSprite.haveAvocado = heroHaveAvocado;
+    this.heroSprite.haveBanana = heroHaveBanana;
+    this.heroSprite.haveCherries = heroHaveCherries;
+    this.heroSprite.haveOrange = heroHaveOrange;
+    this.heroSprite.havePineapple = heroHavePineapple;
+    this.heroSprite.haveWatermelon = heroHaveWatermelon;
     this.updateHeroHealthUi(this.calculateHeroHealthStates());
     this.updateHeroCoinUi(heroCoin);
 
@@ -637,6 +651,99 @@ export default class GameScene extends Scene {
 
                 break;
               }
+              case "apple": {
+                if (!heroHaveApple) {
+                  const item = this.physics.add
+                    .sprite(x, y, "apple")
+                    .setDepth(1)
+                    .setOrigin(0, 1);
+
+                  item.itemType = "apple";
+                  this.itemsSprites.add(item);
+                }
+
+                break;
+              }
+              case "avocado": {
+                if (!heroHaveAvocado) {
+                  const item = this.physics.add
+                    .sprite(x, y, "avocado")
+                    .setDepth(1)
+                    .setOrigin(0, 1);
+
+                  item.itemType = "avocado";
+                  this.itemsSprites.add(item);
+                }
+
+                break;
+              }
+
+              case "banana": {
+                if (!heroHaveBanana) {
+                  const item = this.physics.add
+                    .sprite(x, y, "banana")
+                    .setDepth(1)
+                    .setOrigin(0, 1);
+
+                  item.itemType = "banana";
+                  this.itemsSprites.add(item);
+                }
+
+                break;
+              }
+
+              case "cherries": {
+                if (!heroHaveCherries) {
+                  const item = this.physics.add
+                    .sprite(x, y, "cherries")
+                    .setDepth(1)
+                    .setOrigin(0, 1);
+
+                  item.itemType = "cherries";
+                  this.itemsSprites.add(item);
+                }
+
+                break;
+              }
+              case "orange": {
+                if (!heroHaveOrange) {
+                  const item = this.physics.add
+                    .sprite(x, y, "orange")
+                    .setDepth(1)
+                    .setOrigin(0, 1);
+
+                  item.itemType = "orange";
+                  this.itemsSprites.add(item);
+                }
+
+                break;
+              }
+              case "pineapple": {
+                if (!heroHavePineapple) {
+                  const item = this.physics.add
+                    .sprite(x, y, "pineapple")
+                    .setDepth(1)
+                    .setOrigin(0, 1);
+
+                  item.itemType = "pineapple";
+                  this.itemsSprites.add(item);
+                }
+
+                break;
+              }
+              case "watermelon": {
+                if (!heroHaveWatermelon) {
+                  const item = this.physics.add
+                    .sprite(x, y, "watermelon")
+                    .setDepth(1)
+                    .setOrigin(0, 1);
+
+                  item.itemType = "watermelon";
+                  this.itemsSprites.add(item);
+                }
+
+                break;
+              }
 
               case "push": {
                 if (!heroCanPush) {
@@ -719,6 +826,13 @@ export default class GameScene extends Scene {
                       coin: this.heroSprite.coin,
                       canPush: this.heroSprite.canPush,
                       haveSword: this.heroSprite.haveSword,
+                      haveApple: this.heroSprite.haveApple,
+                      haveAvocado: this.heroSprite.haveAvocado,
+                      haveBanana: this.heroSprite.haveBanana,
+                      haveCherries: this.heroSprite.haveCherries,
+                      haveOrange: this.heroSprite.haveOrange,
+                      havePineapple: this.heroSprite.havePineapple,
+                      haveWatermelon: this.heroSprite.haveWatermelon,
                     },
                     mapKey: teleportToMapKey,
                   });
@@ -815,6 +929,199 @@ export default class GameScene extends Scene {
           );
 
           this.heroSprite.haveSword = true;
+          item.setVisible(false);
+          item.destroy();
+        }
+        if (item.itemType === "apple") {
+          const customEvent = new CustomEvent("new-dialog", {
+            detail: {
+              characterName: item.itemType,
+            },
+          });
+          window.dispatchEvent(customEvent);
+          this.isShowingDialog = true;
+          const dialogBoxFinishedEventListener = () => {
+            window.removeEventListener(
+              `${item.itemType}-dialog-finished`,
+              dialogBoxFinishedEventListener
+            );
+
+            this.time.delayedCall(100, () => {
+              this.isShowingDialog = false;
+            });
+          };
+          window.addEventListener(
+            `${item.itemType}-dialog-finished`,
+            dialogBoxFinishedEventListener
+          );
+
+          this.heroSprite.haveApple = true;
+          item.setVisible(false);
+          item.destroy();
+        }
+        if (item.itemType === "avocado") {
+          const customEvent = new CustomEvent("new-dialog", {
+            detail: {
+              characterName: item.itemType,
+            },
+          });
+          window.dispatchEvent(customEvent);
+          this.isShowingDialog = true;
+          const dialogBoxFinishedEventListener = () => {
+            window.removeEventListener(
+              `${item.itemType}-dialog-finished`,
+              dialogBoxFinishedEventListener
+            );
+
+            this.time.delayedCall(100, () => {
+              this.isShowingDialog = false;
+            });
+          };
+          window.addEventListener(
+            `${item.itemType}-dialog-finished`,
+            dialogBoxFinishedEventListener
+          );
+
+          this.heroSprite.haveAvocado = true;
+          item.setVisible(false);
+          item.destroy();
+        }
+        if (item.itemType === "banana") {
+          const customEvent = new CustomEvent("new-dialog", {
+            detail: {
+              characterName: item.itemType,
+            },
+          });
+          window.dispatchEvent(customEvent);
+          this.isShowingDialog = true;
+          const dialogBoxFinishedEventListener = () => {
+            window.removeEventListener(
+              `${item.itemType}-dialog-finished`,
+              dialogBoxFinishedEventListener
+            );
+
+            this.time.delayedCall(100, () => {
+              this.isShowingDialog = false;
+            });
+          };
+          window.addEventListener(
+            `${item.itemType}-dialog-finished`,
+            dialogBoxFinishedEventListener
+          );
+
+          this.heroSprite.haveBanana = true;
+          item.setVisible(false);
+          item.destroy();
+        }
+
+        if (item.itemType === "cherries") {
+          const customEvent = new CustomEvent("new-dialog", {
+            detail: {
+              characterName: item.itemType,
+            },
+          });
+          window.dispatchEvent(customEvent);
+          this.isShowingDialog = true;
+          const dialogBoxFinishedEventListener = () => {
+            window.removeEventListener(
+              `${item.itemType}-dialog-finished`,
+              dialogBoxFinishedEventListener
+            );
+
+            this.time.delayedCall(100, () => {
+              this.isShowingDialog = false;
+            });
+          };
+          window.addEventListener(
+            `${item.itemType}-dialog-finished`,
+            dialogBoxFinishedEventListener
+          );
+
+          this.heroSprite.haveCherries = true;
+          item.setVisible(false);
+          item.destroy();
+        }
+
+        if (item.itemType === "orange") {
+          const customEvent = new CustomEvent("new-dialog", {
+            detail: {
+              characterName: item.itemType,
+            },
+          });
+          window.dispatchEvent(customEvent);
+          this.isShowingDialog = true;
+          const dialogBoxFinishedEventListener = () => {
+            window.removeEventListener(
+              `${item.itemType}-dialog-finished`,
+              dialogBoxFinishedEventListener
+            );
+
+            this.time.delayedCall(100, () => {
+              this.isShowingDialog = false;
+            });
+          };
+          window.addEventListener(
+            `${item.itemType}-dialog-finished`,
+            dialogBoxFinishedEventListener
+          );
+
+          this.heroSprite.haveOrange = true;
+          item.setVisible(false);
+          item.destroy();
+        }
+
+        if (item.itemType === "pineapple") {
+          const customEvent = new CustomEvent("new-dialog", {
+            detail: {
+              characterName: item.itemType,
+            },
+          });
+          window.dispatchEvent(customEvent);
+          this.isShowingDialog = true;
+          const dialogBoxFinishedEventListener = () => {
+            window.removeEventListener(
+              `${item.itemType}-dialog-finished`,
+              dialogBoxFinishedEventListener
+            );
+
+            this.time.delayedCall(100, () => {
+              this.isShowingDialog = false;
+            });
+          };
+          window.addEventListener(
+            `${item.itemType}-dialog-finished`,
+            dialogBoxFinishedEventListener
+          );
+
+          this.heroSprite.havePineapple = true;
+          item.setVisible(false);
+          item.destroy();
+        }
+
+        if (item.itemType === "watermelon") {
+          const customEvent = new CustomEvent("new-dialog", {
+            detail: {
+              characterName: item.itemType,
+            },
+          });
+          window.dispatchEvent(customEvent);
+          this.isShowingDialog = true;
+          const dialogBoxFinishedEventListener = () => {
+            window.removeEventListener(
+              `${item.itemType}-dialog-finished`,
+              dialogBoxFinishedEventListener
+            );
+
+            this.time.delayedCall(100, () => {
+              this.isShowingDialog = false;
+            });
+          };
+          window.addEventListener(
+            `${item.itemType}-dialog-finished`,
+            dialogBoxFinishedEventListener
+          );
+
+          this.heroSprite.haveWatermelon = true;
           item.setVisible(false);
           item.destroy();
         }
@@ -1392,7 +1699,13 @@ export default class GameScene extends Scene {
     if (
       !this.gridEngine.isMoving("hero") &&
       this.isSpaceJustDown &&
-      this.heroSprite.haveSword
+      this.heroSprite.haveApple &&
+      this.heroSprite.haveAvocado &&
+      this.heroSprite.haveBanana &&
+      this.heroSprite.haveCherries &&
+      this.heroSprite.haveOrange &&
+      this.heroSprite.havePineapple &&
+      this.heroSprite.haveWatermelon 
     ) {
       const facingDirection = this.gridEngine.getFacingDirection("hero");
       this.heroSprite.anims.play(`hero_attack_${facingDirection}`);

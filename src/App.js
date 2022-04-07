@@ -104,6 +104,55 @@ const dialogs = {
       audio: apple,
     },
   ],
+  apple: [
+    {
+      message: "Apple",
+      answer: "apple",
+      // audio: apple,
+    },
+  ],
+  avocado: [
+    {
+      message: "avocado",
+      answer: "avocado",
+      // audio: apple,
+    },
+  ],
+  banana: [
+    {
+      message: "Banana",
+      answer: "banana",
+      // audio: apple,
+    },
+  ],
+  cherries: [
+    {
+      message: "cherries",
+      answer: "cherries",
+      // audio: apple,
+    },
+  ],
+  orange: [
+    {
+      message: "orange",
+      answer: "orange",
+      // audio: apple,
+    },
+  ],
+  pineapple: [
+    {
+      message: "pineapple",
+      answer: "pineapple",
+      // audio: apple,
+    },
+  ],
+  watermelon: [
+    {
+      message: "watermelon",
+      answer: "watermelon",
+      // audio: apple,
+    },
+  ],
   push: [
     {
       message: "You can push boxes now",

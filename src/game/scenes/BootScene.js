@@ -32,6 +32,13 @@ import gameLogoImage from "../assets/images/game_logo.png";
 import heartContainerImage from "../assets/images/heart_container.png";
 import swordImage from "../assets/images/sword.png";
 import pushImage from "../assets/images/push.png";
+import appleImage from "../assets/images/apple.png";
+import avocadoImage from "../assets/images/avocado.png";
+import bananaImage from "../assets/images/banana.png";
+import cherriesImage from "../assets/images/cherries.png";
+import orangeImage from "../assets/images/orange.png";
+import pineappleImage from "../assets/images/pineapple.png";
+import watermelonImage from "../assets/images/watermelon.png";
 
 // NPC images
 import npc01Image from "../assets/sprites/atlas/npc_01.png";
@@ -160,6 +167,13 @@ export default class BootScene extends Scene {
     this.load.image("heart_container", heartContainerImage);
     this.load.image("sword", swordImage);
     this.load.image("push", pushImage);
+    this.load.image("apple", appleImage);
+    this.load.image("avocado", avocadoImage);
+    this.load.image("banana", bananaImage);
+    this.load.image("cherries", cherriesImage);
+    this.load.image("orange", orangeImage);
+    this.load.image("pineapple", pineappleImage);
+    this.load.image("watermelon", watermelonImage);
   }
 
   create() {
