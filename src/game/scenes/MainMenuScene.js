@@ -31,6 +31,7 @@ export default class MainMenuScene extends Scene {
 
         window.dispatchEvent(customEvent);
         const gameMenuSelectedEventListener = ({ detail }) => {
+            console.log(detail);
             switch (detail.selectedItem) {
                 case 'start': {
                     this.scene.start('GameScene', {

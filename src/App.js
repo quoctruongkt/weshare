@@ -18,6 +18,7 @@ import { calculateGameSize } from "./game/utils";
 import ReactAudioPlayer from "react-audio-player";
 import apple from "./game/assets/audio/apple.mp3";
 import volume from "./game/assets/images/volume.png";
+import trophy from "./game/assets/images/trophy.png";
 
 const { width, height, multiplier } = calculateGameSize();
 
@@ -260,7 +261,7 @@ function App() {
       backgroundColor: "#000000",
     });
 
-    // window.phaserGame = game;
+    window.phaserGame = game;
   }, []);
 
   useEffect(() => {
@@ -306,9 +307,24 @@ function App() {
       window.removeEventListener("hero-coin", heroCoinEventListener);
     };
   }, [setCharacterName, setMessages]);
-
+  console.log(gameMenuItems);
   return (
     <div>
+      {gameMenuItems.length == 0 && (
+        <div class="leaderboard">
+          <h1>
+            <img src={trophy} />
+            Leader Board
+          </h1>
+          <ol>
+            <li>Jerry Wood</li>
+            <li>Brandon Barnes</li>
+            <li>Raymond Knight</li>
+            <li>Trevor McCormick</li>
+            <li>Andrew Fox</li>
+          </ol>
+        </div>
+      )}
       <ReactAudioPlayer
         src={urlAudio}
         autoPlay={true}
