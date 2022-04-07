@@ -17,6 +17,7 @@ import "./App.css";
 import { calculateGameSize } from "./game/utils";
 import ReactAudioPlayer from "react-audio-player";
 import apple from "./game/assets/audio/apple.mp3";
+import volume from "./game/assets/images/volume.png";
 
 const { width, height, multiplier } = calculateGameSize();
 
@@ -181,15 +182,31 @@ const dialogs = {
   ],
 };
 
+const arrQuestion = [
+  "apple",
+  "watermelon",
+  "orange",
+  "pineapple",
+  "cherries",
+  "mango",
+  "banana",
+  "avocado",
+];
+
 function App() {
   const classes = useStyles();
   const [messages, setMessages] = useState([]);
   const [characterName, setCharacterName] = useState("");
-  const [gameMenuItems, setGameMenuItems] = useState([]);
+  const [gameMenuItems, setGameMenuItems] = useState(["hihi"]);
   const [gameMenuPosition, setGameMenuPosition] = useState("center");
-  const [heroHealthStates, setHeroHealthStates] = useState([]);
+  const [heroHealthStates, setHeroHealthStates] = useState([
+    "full",
+    "full",
+    "full",
+  ]);
   const [heroCoins, setHeroCoins] = useState(0);
   const [urlAudio, setUrlAudio] = useState("");
+  const [questionIndex, setQuestionIndex] = useState(0);
 
   const handleMessageIsDone = useCallback(() => {
     const customEvent = new CustomEvent(`${characterName}-dialog-finished`, {
@@ -247,9 +264,19 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (gameMenuItems.length == 0) {
+      console.log("start");
+      const question = arrQuestion[questionIndex];
+      localStorage.setItem("question", question);
+      setUrlAudio(`${url}${dialogs[question][0].audio}`);
+    }
+  }, [questionIndex, gameMenuItems]);
+
+  useEffect(() => {
     const dialogBoxEventListener = ({ detail }) => {
       // TODO fallback
-      setUrlAudio(`${url}${dialogs[detail.characterName][0].audio}`);
+      detail.characterName === arrQuestion[questionIndex] &&
+        setUrlAudio(`${url}${dialogs[detail.characterName][0].audio}`);
       setCharacterName(detail.characterName);
       setMessages(dialogs[detail.characterName]);
     };
@@ -262,6 +289,7 @@ function App() {
     window.addEventListener("menu-items", gameMenuEventListener);
 
     const heroHealthEventListener = ({ detail }) => {
+      // console.log(detail);
       setHeroHealthStates(detail.healthStates);
     };
     window.addEventListener("hero-health", heroHealthEventListener);
@@ -283,14 +311,34 @@ function App() {
     <div>
       <ReactAudioPlayer
         src={urlAudio}
-        autoPlay
+        autoPlay={true}
         controls
         style={{ display: "none" }}
+        onEnded={() => setUrlAudio("")}
       />
       <div className={classes.gameWrapper}>
         <div id="game-content" className={classes.gameContentWrapper}>
           {/* this is where the game canvas will be rendered */}
         </div>
+        {gameMenuItems.length === 0 && (
+          <button
+            onClick={() =>
+              setUrlAudio(
+                `${url}${dialogs[localStorage.getItem("question")][0].audio}`
+              )
+            }
+            style={{
+              position: "fixed",
+              right: "500px",
+              top: "40px",
+              backgroundColor: "transparent",
+              border: 0,
+              cursor: "pointer",
+            }}
+          >
+            <img src={volume} />
+          </button>
+        )}
         {heroHealthStates.length > 0 && (
           <HeroHealth
             gameSize={{
@@ -322,6 +370,10 @@ function App() {
               multiplier,
             }}
             setHeroCoins={setHeroCoins}
+            setHeroHealthStates={setHeroHealthStates}
+            question={arrQuestion[questionIndex]}
+            setQuestionIndex={setQuestionIndex}
+            heroHealthStates={heroHealthStates}
           />
         )}
         {gameMenuItems.length > 0 && (

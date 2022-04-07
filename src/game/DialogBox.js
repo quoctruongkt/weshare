@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
       padding: `${8 * multiplier}px`,
       position: "absolute",
       top: `${Math.ceil(
-        height * multiplier - (messageBoxHeight + messageBoxHeight * 0.1)
+        height * multiplier - (messageBoxHeight + messageBoxHeight * 0.1) - 50
       )}px`,
       width: `${Math.ceil(width * 0.8 * multiplier)}px`,
       left: "50%",
@@ -47,6 +47,13 @@ const useStyles = makeStyles((theme) => ({
     right: `${6 * multiplier}px`,
     bottom: `${6 * multiplier}px`,
   }),
+  buttonSubmit: ({ multiplier }) => ({
+    fontSize: `${8 * multiplier}px`,
+    marginLeft: "20px",
+  }),
+  input: ({ multiplier }) => ({
+    fontSize: `${8 * multiplier}px`,
+  }),
 }));
 
 const DialogBox = ({
@@ -55,6 +62,10 @@ const DialogBox = ({
   onDone,
   gameSize,
   setHeroCoins,
+  question,
+  setHeroHealthStates,
+  setQuestionIndex,
+  heroHealthStates,
 }) => {
   const { register, handleSubmit } = useForm();
   const { width, height, multiplier } = gameSize;
@@ -84,24 +95,29 @@ const DialogBox = ({
   };
 
   const handleClick = useCallback(() => {
-    if (messageEnded) {
-      setMessageEnded(false);
-      setForceShowFullMessage(false);
-      if (currentMessage < messages.length - 1) {
-        setCurrentMessage(currentMessage + 1);
+    if (characterName === question) {
+      if (messageEnded) {
+        setMessageEnded(false);
+        setForceShowFullMessage(false);
+        if (currentMessage < messages.length - 1) {
+          setCurrentMessage(currentMessage + 1);
+        } else {
+          setCurrentMessage(0);
+          onDone();
+          setQuestionIndex((pre) => pre + 1);
+        }
       } else {
-        setCurrentMessage(0);
-        onDone();
+        setMessageEnded(true);
+        setForceShowFullMessage(true);
       }
     } else {
-      setMessageEnded(true);
-      setForceShowFullMessage(true);
+      onDone();
     }
   }, [currentMessage, messageEnded, messages.length, onDone]);
 
   useEffect(() => {
     const handleKeyPressed = (e) => {
-      if (["Enter", "Space", "Escape"].includes(e.code)) {
+      if (["Space", "Escape"].includes(e.code)) {
         handleClick();
       }
     };
@@ -109,6 +125,17 @@ const DialogBox = ({
 
     return () => window.removeEventListener("keydown", handleKeyPressed);
   }, [handleClick]);
+
+  useEffect(() => {
+    if (characterName !== question) {
+      setHeroHealthStates(
+        heroHealthStates.filter((item, i) => i !== heroHealthStates.length - 1)
+      );
+      setUrlAudio(saiAudio);
+    } else {
+      // setUrlAudio(dungAudio);
+    }
+  }, []);
 
   return (
     <div className={classes.dialogWindow}>
@@ -118,32 +145,45 @@ const DialogBox = ({
         controls
         style={{ display: "none" }}
       />
-      <div className={classes.dialogTitle}>{characterName}</div>
-      <Message
-        action={messages[currentMessage].action}
-        message={messages[currentMessage].message}
-        key={currentMessage}
-        multiplier={multiplier}
-        forceShowFullMessage={forceShowFullMessage}
-        onMessageEnded={() => {
-          setMessageEnded(true);
-        }}
-      />
-
-      {!results ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input
-            type="text"
-            {...register("textInput")}
-            placeholder="Nhập từ vừa nghe được"
+      <div className={classes.dialogTitle}>Quả gì?</div>
+      {characterName === question ? (
+        <>
+          <Message
+            action={messages[currentMessage].action}
+            message={messages[currentMessage].message}
+            key={currentMessage}
+            multiplier={multiplier}
+            forceShowFullMessage={forceShowFullMessage}
+            onMessageEnded={() => {
+              setMessageEnded(true);
+            }}
           />
-          <button type="submit">Kiểm tra</button>
-        </form>
+          {!results ? (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div style={{ marginTop: "30px" }}>
+                <input
+                  type="text"
+                  {...register("textInput")}
+                  placeholder="Nhập từ vừa nghe được"
+                  className={classes.input}
+                />
+                <button type="submit" className={classes.buttonSubmit}>
+                  Kiểm tra
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div>{results}</div>
+          )}
+        </>
       ) : (
-        <div>{results}</div>
+        <div>Bạn đã chọn sai</div>
       )}
       <div onClick={handleClick} className={classes.dialogFooter}>
-        {currentMessage === messages.length - 1 && messageEnded ? "Ok" : "Next"}
+        Bỏ qua
+        {/* {currentMessage === messages.length - 1 && messageEnded
+          ? "Bỏ qua"
+          : "Next"} */}
       </div>
     </div>
   );

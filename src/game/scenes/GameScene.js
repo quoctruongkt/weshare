@@ -526,7 +526,6 @@ export default class GameScene extends Scene {
 
       properties.forEach((property) => {
         const { name, type, value } = property;
-
         switch (name) {
           case "dialog": {
             const customCollider = createInteractiveGameObject(
@@ -885,6 +884,7 @@ export default class GameScene extends Scene {
       this.heroSprite,
       this.itemsSprites,
       (objA, objB) => {
+        const question = localStorage.getItem("question");
         const item = [objA, objB].find((obj) => obj !== this.heroSprite);
 
         if (item.itemType === "heart") {
@@ -939,13 +939,11 @@ export default class GameScene extends Scene {
             },
           });
           window.dispatchEvent(customEvent);
-          this.isShowingDialog = true;
           const dialogBoxFinishedEventListener = () => {
             window.removeEventListener(
               `${item.itemType}-dialog-finished`,
               dialogBoxFinishedEventListener
             );
-
             this.time.delayedCall(100, () => {
               this.isShowingDialog = false;
             });
@@ -954,10 +952,12 @@ export default class GameScene extends Scene {
             `${item.itemType}-dialog-finished`,
             dialogBoxFinishedEventListener
           );
-
           this.heroSprite.haveApple = true;
-          item.setVisible(false);
-          item.destroy();
+          if (item.itemType === question) {
+            item.setVisible(false);
+            item.destroy();
+            this.isShowingDialog = true;
+          }
         }
         if (item.itemType === "avocado") {
           const customEvent = new CustomEvent("new-dialog", {
@@ -966,7 +966,6 @@ export default class GameScene extends Scene {
             },
           });
           window.dispatchEvent(customEvent);
-          this.isShowingDialog = true;
           const dialogBoxFinishedEventListener = () => {
             window.removeEventListener(
               `${item.itemType}-dialog-finished`,
@@ -983,8 +982,11 @@ export default class GameScene extends Scene {
           );
 
           this.heroSprite.haveAvocado = true;
-          item.setVisible(false);
-          item.destroy();
+          if (item.itemType === question) {
+            this.isShowingDialog = true;
+            item.setVisible(false);
+            item.destroy();
+          }
         }
         if (item.itemType === "banana") {
           const customEvent = new CustomEvent("new-dialog", {
@@ -993,7 +995,6 @@ export default class GameScene extends Scene {
             },
           });
           window.dispatchEvent(customEvent);
-          this.isShowingDialog = true;
           const dialogBoxFinishedEventListener = () => {
             window.removeEventListener(
               `${item.itemType}-dialog-finished`,
@@ -1010,8 +1011,11 @@ export default class GameScene extends Scene {
           );
 
           this.heroSprite.haveBanana = true;
-          item.setVisible(false);
-          item.destroy();
+          if (item.itemType === question) {
+            this.isShowingDialog = true;
+            item.setVisible(false);
+            item.destroy();
+          }
         }
 
         if (item.itemType === "cherries") {
@@ -1021,7 +1025,6 @@ export default class GameScene extends Scene {
             },
           });
           window.dispatchEvent(customEvent);
-          this.isShowingDialog = true;
           const dialogBoxFinishedEventListener = () => {
             window.removeEventListener(
               `${item.itemType}-dialog-finished`,
@@ -1038,18 +1041,21 @@ export default class GameScene extends Scene {
           );
 
           this.heroSprite.haveCherries = true;
-          item.setVisible(false);
-          item.destroy();
+          if (item.itemType === question) {
+            this.isShowingDialog = true;
+            item.setVisible(false);
+            item.destroy();
+          }
         }
 
         if (item.itemType === "orange") {
+          console.log("123");
           const customEvent = new CustomEvent("new-dialog", {
             detail: {
               characterName: item.itemType,
             },
           });
           window.dispatchEvent(customEvent);
-          this.isShowingDialog = true;
           const dialogBoxFinishedEventListener = () => {
             window.removeEventListener(
               `${item.itemType}-dialog-finished`,
@@ -1066,8 +1072,11 @@ export default class GameScene extends Scene {
           );
 
           this.heroSprite.haveOrange = true;
-          item.setVisible(false);
-          item.destroy();
+          if (item.itemType === question) {
+            this.isShowingDialog = true;
+            item.setVisible(false);
+            item.destroy();
+          }
         }
 
         if (item.itemType === "pineapple") {
@@ -1077,7 +1086,6 @@ export default class GameScene extends Scene {
             },
           });
           window.dispatchEvent(customEvent);
-          this.isShowingDialog = true;
           const dialogBoxFinishedEventListener = () => {
             window.removeEventListener(
               `${item.itemType}-dialog-finished`,
@@ -1094,8 +1102,11 @@ export default class GameScene extends Scene {
           );
 
           this.heroSprite.havePineapple = true;
-          item.setVisible(false);
-          item.destroy();
+          if (item.itemType === question) {
+            this.isShowingDialog = true;
+            item.setVisible(false);
+            item.destroy();
+          }
         }
 
         if (item.itemType === "watermelon") {
@@ -1105,7 +1116,6 @@ export default class GameScene extends Scene {
             },
           });
           window.dispatchEvent(customEvent);
-          this.isShowingDialog = true;
           const dialogBoxFinishedEventListener = () => {
             window.removeEventListener(
               `${item.itemType}-dialog-finished`,
@@ -1122,8 +1132,11 @@ export default class GameScene extends Scene {
           );
 
           this.heroSprite.haveWatermelon = true;
-          item.setVisible(false);
-          item.destroy();
+          if (item.itemType === question) {
+            this.isShowingDialog = true;
+            item.setVisible(false);
+            item.destroy();
+          }
         }
 
         if (item.itemType === "push") {
@@ -1133,7 +1146,6 @@ export default class GameScene extends Scene {
             },
           });
           window.dispatchEvent(customEvent);
-          this.isShowingDialog = true;
           const dialogBoxFinishedEventListener = () => {
             window.removeEventListener(
               `${item.itemType}-dialog-finished`,
@@ -1150,8 +1162,11 @@ export default class GameScene extends Scene {
           );
 
           this.heroSprite.canPush = true;
-          item.setVisible(false);
-          item.destroy();
+          if (item.itemType === question) {
+            this.isShowingDialog = true;
+            item.setVisible(false);
+            item.destroy();
+          }
         }
       }
     );
@@ -1705,7 +1720,7 @@ export default class GameScene extends Scene {
       this.heroSprite.haveCherries &&
       this.heroSprite.haveOrange &&
       this.heroSprite.havePineapple &&
-      this.heroSprite.haveWatermelon 
+      this.heroSprite.haveWatermelon
     ) {
       const facingDirection = this.gridEngine.getFacingDirection("hero");
       this.heroSprite.anims.play(`hero_attack_${facingDirection}`);
