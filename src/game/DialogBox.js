@@ -84,7 +84,7 @@ const DialogBox = ({
   const onSubmit = (data) => {
     const input = data.textInput.toLowerCase();
     if (input === messages[0].answer) {
-      setHeroCoins((pre) => pre + 10);
+      setHeroCoins((pre) => pre + 5);
       setUrlAudio(dungAudio);
       setResults("Đúng rồi");
     } else {
@@ -133,6 +133,7 @@ const DialogBox = ({
       );
       setUrlAudio(saiAudio);
     } else {
+      setHeroCoins((pre) => pre + 5);
       // setUrlAudio(dungAudio);
     }
   }, []);
