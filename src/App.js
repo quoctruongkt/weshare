@@ -75,6 +75,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const url = "https://vysqy4zclvobj.vcdn.cloud/E_Learning/page/";
+
 const dialogs = {
   npc_01: [
     {
@@ -106,51 +108,60 @@ const dialogs = {
   ],
   apple: [
     {
-      message: "Apple",
+      message: "Quả gì khi chín đỏ tươi. Ăn vào ngọt mát, da thời đẹp hơn?",
       answer: "apple",
-      // audio: apple,
-    },
-  ],
-  avocado: [
-    {
-      message: "avocado",
-      answer: "avocado",
-      // audio: apple,
-    },
-  ],
-  banana: [
-    {
-      message: "Banana",
-      answer: "banana",
-      // audio: apple,
-    },
-  ],
-  cherries: [
-    {
-      message: "cherries",
-      answer: "cherries",
-      // audio: apple,
-    },
-  ],
-  orange: [
-    {
-      message: "orange",
-      answer: "orange",
-      // audio: apple,
-    },
-  ],
-  pineapple: [
-    {
-      message: "pineapple",
-      answer: "pineapple",
-      // audio: apple,
+      audio: "apple.mp3",
     },
   ],
   watermelon: [
     {
-      message: "watermelon",
+      message: "Quả gì nổi tiếng trong sự tích Mai An Tiêm?",
       answer: "watermelon",
-      // audio: apple,
+      audio: "water_melon.mp3",
+    },
+  ],
+  pineapple: [
+    {
+      message: "Quả gì có nhiều mắt nhất?",
+      answer: "pineapple",
+      audio: "pineapple.mp3",
+    },
+  ],
+  orange: [
+    {
+      message: "Quả gì bổ sung nhiều vitamin C cho cơ thể?",
+      answer: "orange",
+      audio: "orange.mp3",
+    },
+  ],
+  mango: [
+    {
+      message:
+        "Lủng liễng trĩu trịt cành cao. Nghe tên cứ ngỡ ngã nhào đất đen?",
+      answer: "mango",
+      audio: "mango.mp3",
+    },
+  ],
+  cherries: [
+    {
+      message: "Quả gì màu đỏ ăn rất ngon?",
+      answer: "cherry",
+      audio: "cherry.mp3",
+    },
+  ],
+  banana: [
+    {
+      message: "Vỏ quả này dẫm phải rất dễ ngã đó nha",
+      answer: "banana",
+      audio: "banana.mp3",
+    },
+  ],
+  avocado: [
+    {
+      message:
+        "Da thì đen mượt, Ruột trắng hơn ngà, Mùi vị đậm đà, Đắt ơi là đắt - Là quả gì?",
+      answer: "avocado",
+      audio: "avocado.mp3",
     },
   ],
   push: [
@@ -238,7 +249,7 @@ function App() {
   useEffect(() => {
     const dialogBoxEventListener = ({ detail }) => {
       // TODO fallback
-      setUrlAudio(dialogs[detail.characterName][0].audio);
+      setUrlAudio(`${url}${dialogs[detail.characterName][0].audio}`);
       setCharacterName(detail.characterName);
       setMessages(dialogs[detail.characterName]);
     };
