@@ -1,24 +1,21 @@
 @font-face {
-  font-family: 'Press Start 2P';
-  src: url('PressStart2P-Regular.ttf') format('opentype'),
-  url('PressStart2P-Regular.ttf') format('opentype');
+  font-family: 'Fredoka One', cursive;
+  /* src: url("PressStart2P-Regular.ttf") format("opentype"),
+    url("PressStart2P-Regular.ttf") format("opentype");
   font-weight: normal;
-  font-style: normal;
+  font-style: normal; */
 }
-
-
-
 
 .leaderboard {
   position: fixed;
   right: 25px;
   top: 20px;
-  width: 285px;
+
   background: transparent;
   border-radius: 10px;
-  box-shadow: 0 7px 30px rgba(62, 9, 11, .3);
+  box-shadow: 0 7px 30px rgba(62, 9, 11, 0.3);
   text-align: center;
-  color: rgb(33, 0, 248)
+  color: rgb(33, 0, 248);
 }
 
 .leaderboard ol {
@@ -36,6 +33,3 @@
   font-weight: bolder;
   text-align: left;
 }
-
-
-
